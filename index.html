@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Destinations Map</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin=""/>
+    
+    <!-- Leaflet MarkerCluster CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Main Map Container -->
+        <div id="map-container">
+            <div id="map"></div>
+            
+            <!-- Mini Map -->
+            <div id="minimap-container">
+                <div id="minimap"></div>
+                <div id="minimap-label">World View</div>
+            </div>
+        </div>
+        
+        <!-- Bottom Sheet -->
+        <div id="bottom-sheet" class="bottom-sheet">
+            <div class="bottom-sheet-handle">
+                <div class="handle-bar"></div>
+            </div>
+            
+            <!-- Tab Navigation -->
+            <div class="tab-navigation">
+                <button class="tab-button active" data-tab="current">
+                    <i class="fas fa-location-dot"></i>
+                    Current
+                </button>
+                <button class="tab-button" data-tab="all">
+                    <i class="fas fa-globe"></i>
+                    All
+                </button>
+                <button class="tab-button" data-tab="saved">
+                    <i class="fas fa-heart"></i>
+                    Saved
+                </button>
+            </div>
+            
+            <!-- Tab Content -->
+            <div class="tab-content">
+                <!-- Current POIs Tab -->
+                <div id="current-tab" class="tab-pane active">
+                    <div class="tab-header">
+                        <h3>POIs in Current View</h3>
+                        <span id="current-count">0 places</span>
+                    </div>
+                    <div id="current-list" class="poi-list"></div>
+                </div>
+                
+                <!-- All Countries Tab -->
+                <div id="all-tab" class="tab-pane">
+                    <div class="tab-header">
+                        <h3>All Countries</h3>
+                        <div class="alphabet-index" id="alphabet-index"></div>
+                    </div>
+                    <div id="all-list" class="poi-list countries-list"></div>
+                </div>
+                
+                <!-- Saved POIs Tab -->
+                <div id="saved-tab" class="tab-pane">
+                    <div class="tab-header">
+                        <h3>Saved Places</h3>
+                        <span id="saved-count">0 saved</span>
+                    </div>
+                    <div id="saved-list" class="poi-list"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Loading Indicator -->
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <span>Loading map...</span>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
+    
+    <!-- Leaflet MarkerCluster JS -->
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
