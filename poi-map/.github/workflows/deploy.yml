@@ -1,0 +1,75 @@
+name: Deploy Pages (prod & PR previews)
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: poi-map/package-lock.json
+
+      - name: Install dependencies
+        working-directory: poi-map
+        run: npm ci
+
+      - name: Set base path for Pages (project site)
+        if: github.event_name == 'push'
+        working-directory: poi-map
+        run: echo "VITE_BASE=/${GITHUB_REPOSITORY##*/}/" >> $GITHUB_ENV
+
+      - name: Build
+        working-directory: poi-map
+        run: npm run build
+        env:
+          VITE_BASE: ${{ env.VITE_BASE }}
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: poi-map/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages (prod & preview)
+        id: deployment
+        uses: actions/deploy-pages@v4
+        with:
+          preview: ${{ github.event_name == 'pull_request' }}
+
+      - name: Comment PR with Preview URL
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const pr = context.payload.pull_request.number;
+            const url = core.getInput('page_url') || process.env.DEPLOYMENT_URL || '${{ steps.deployment.outputs.page_url }}';
+            const body = `🚀 Preview deployed: ${url}`;
+            await github.rest.issues.createComment({ owner, repo, issue_number: pr, body });
+

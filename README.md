@@ -1,15 +1,68 @@
-# mapcursortest
+# Interactive Travel POI Map
 
-## Requirements
- Interactive map to show common travel destinations poi around the world and the street minimal dark theme view, with pin indicating different type of poi, when click show brief info popup of the place, location, and option to navigate in maps.
- 
- When zooming in or out it should group and show count in a larger bubble circle in those area.
- 
- Feature 1: listing sheet Show a list view of the poi by current viewport map position (first tab = current) sort by proximity of the current selected poi or middle screen position. Second tab All will show all countries in ascending order by name with section of each alphabet to scroll on the right, the sheet height is draggable to expand bottom sheet in 3 height level 10% 50% and 100%. The interaction is also mobile friendly that cover touch events.
- 
- Feature 2: saved into my list - add hearted save button in the poi info popup and Saved tab into the bottomsheet that also have hearted icon when click will be unsaved.
- 
- Feature 3: Show minimap of where in the world the current viewport user is viewing (with 2 small rectangular marker for continent, and country/state)
- 
- Related ui site - [https://map.tao-bin.com](https://map.tao-bin.com/) - for optimization of performance follow this guideline : [https://infinitejs.com/posts/leafletjs-common-map-rendering-issues/](https://infinitejs.com/posts/leafletjs-common-map-rendering-issues/)
+An interactive world map that shows common travel destinations (POIs) with a minimal dark theme. It includes clustering, popups with save/unsave and navigation, a draggable multi-tab bottom sheet, and a mini map of the current viewport.
+
+Related UI reference: `https://map.tao-bin.com`  •  Performance guideline: `https://infinitejs.com/posts/leafletjs-common-map-rendering-issues/`
+
+## Overview
+
+- Minimal dark Leaflet map with clustered POIs
+- Popups: brief info, open in Maps, heart to save/unsave
+- Bottom sheet tabs: Current (viewport), All (by country), Saved; draggable to 10%/50%/100%
+- Mini map: shows current viewport rectangle; placeholders for continent and country/state markers
+- Mobile-friendly touch interactions; saved list persisted locally
+
+## Tech Stack
+
+- React + TypeScript + Vite (app in `poi-map/`)
+- Leaflet + React-Leaflet, supercluster
+- Zustand for state
+
+## Development
+
+Prerequisites:
+
+- Node.js 18+ (recommend 20)
+- npm 10+
+
+Run locally:
+
+```bash
+cd poi-map
+npm install
+npm run dev
+```
+
+Open the local dev URL printed by Vite.
+
+## Deployment
+
+### GitHub Pages (production)
+
+This repository deploys to GitHub Pages from `main` using GitHub Actions.
+
+- Workflow file: `.github/workflows/deploy.yml`
+- Vite base path is set via `VITE_BASE` in CI to serve under `/<repo>/`.
+- In repo Settings → Pages, set Source to “GitHub Actions”.
+
+### PR Preview Deployments
+
+For each pull request to `main`, the workflow builds and publishes a GitHub Pages preview deployment. A comment with the preview URL is posted on the PR.
+
+Notes:
+
+- Previews are isolated per PR and update on new commits.
+- Previews are automatically retired when the PR is closed/merged.
+
+## Environment Variables
+
+- `VITE_BASE` (optional locally): Base path for Vite build. CI sets this automatically for Pages.
+
+## Repository Layout
+
+- `poi-map/`: Application source (Vite + React TS)
+
+## License
+
+MIT
  
